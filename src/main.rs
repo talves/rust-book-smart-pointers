@@ -35,5 +35,6 @@ fn main() {
         println!("Hello, {}!", name);
     }
     let m = Chest::new(String::from("World"));
-    hello(&m);
+    hello(&m); // Implicit deref coercion
+    hello(&(*m)[..]); // what we would have had to write to do the above
 }

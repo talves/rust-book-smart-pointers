@@ -1,9 +1,10 @@
-use std::rc::Rc;
+use std::{cell::RefCell, rc::Rc};
 
 use rust_smart_pointers::{
     Chest, CustomSmartPointer,
     List::{Cons, Nil},
     RcList::{Cons as RcCons, Nil as RcNil},
+    RcRefCellList::{Cons as RcRefCellCons, Nil as RcRefCellNil},
 };
 
 fn main() {
@@ -65,8 +66,21 @@ fn main() {
 
     // RefCell<T> allows mutable borrows checked at runtime
     // Mutating the value inside an immutable value is the interior mutability pattern
-    let x = 5;
-    let y = &mut x; // fails
+    // We created RcRefCellList to handle interior mutability pattern
+    // let x = 5;
+    // let y = &mut x; // fails
+    let x = Rc::new(RefCell::new(5));
+    let a = Rc::new(RcRefCellCons(Rc::clone(&x), Rc::new(RcRefCellNil)));
+    println!("a = {:?}", a);
+    let b = RcRefCellCons(Rc::new(RefCell::new(3)), Rc::clone(&a));
+    let c = RcRefCellCons(Rc::new(RefCell::new(4)), Rc::clone(&a));
+    println!("b = {:?}", b);
+    println!("c = {:?}", c);
+    // change the inner value of x although it is immutable, we can deref and borrow_mut() to change the inner value
+    *x.borrow_mut() += 100;
+    println!("a = {:?}", a);
+    println!("b = {:?}", b);
+    println!("c = {:?}", c);
 
     println!("Ending the app");
 }

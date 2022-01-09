@@ -63,5 +63,10 @@ fn main() {
     println!("c = {:?}", c);
     println!("count after creating b & c = {}", Rc::strong_count(&a));
 
+    // RefCell<T> allows mutable borrows checked at runtime
+    // Mutating the value inside an immutable value is the interior mutability pattern
+    let x = 5;
+    let y = &mut x; // fails
+
     println!("Ending the app");
 }

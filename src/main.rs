@@ -81,6 +81,7 @@ fn main() {
     println!("a = {:?}", a);
     println!("b = {:?}", b);
     println!("c = {:?}", c);
+    // Note: this is a single thread implementation. We would use Mutex<T> to do this across threads Ch. 16
 
     println!("Ending the app");
 }

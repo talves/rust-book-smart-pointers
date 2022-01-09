@@ -1,5 +1,3 @@
-use std::ops::Deref;
-
 use rust_smart_pointers::{
     Chest, CustomSmartPointer,
     List::{Cons, Nil},

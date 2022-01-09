@@ -1,8 +1,15 @@
-use std::ops::Deref;
+use std::{ops::Deref, rc::Rc};
 
 pub enum List {
     //Boxes provide only the indirection and heap allocation
     Cons(i32, Box<List>),
+    Nil,
+}
+
+#[derive(Debug)]
+pub enum RcList {
+    //Boxes provide only the indirection and heap allocation
+    Cons(i32, Rc<RcList>),
     Nil,
 }
 
@@ -31,6 +38,6 @@ pub struct CustomSmartPointer {
 impl Drop for CustomSmartPointer {
     fn drop(&mut self) {
         //cleanup code would usually go here, but we are using this to show what happens on drop
-        println!("Dropping CustomSmartPointer with data `{}`!", self.data);
+        println!("Dropping CustomSmartPointer with data `{}`💀!", self.data);
     }
 }

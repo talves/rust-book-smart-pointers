@@ -1,6 +1,9 @@
+use std::rc::Rc;
+
 use rust_smart_pointers::{
     Chest, CustomSmartPointer,
     List::{Cons, Nil},
+    RcList::{Cons as RcCons, Nil as RcNil},
 };
 
 fn main() {
@@ -46,6 +49,18 @@ fn main() {
         };
         println!("CustomSmartPointers created.");
     } // Rust automatically calls drop for us when _c, _d lose scope
+
+    // Multiple ownership
+    let a = Cons(5, Box::new(Cons(10, Box::new(Nil))));
+    let b = Cons(3, Box::new(a));
+    // let c = Cons(4, Box::new(a)); // fails originally
+    // let's use our new list type (RcList)
+    let a = Rc::new(RcCons(5, Rc::new(RcCons(10, Rc::new(RcNil)))));
+    let b = RcCons(3, Rc::clone(&a));
+    let c = RcCons(4, Rc::clone(&a)); // c now can point to the same reference as b (&a)
+    println!("a = {:?}", a);
+    println!("b = {:?}", b);
+    println!("c = {:?}", c);
 
     println!("Ending the app");
 }

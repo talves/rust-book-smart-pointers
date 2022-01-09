@@ -1,8 +1,12 @@
-use std::{cell::RefCell, rc::Rc};
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
 
 use rust_smart_pointers::{
     Chest, CustomSmartPointer,
     List::{Cons, Nil},
+    Node,
     RcList::{Cons as RcCons, Nil as RcNil},
     RcRefCellList::{Cons as RcRefCellCons, Nil as RcRefCellNil},
     RefCycleList::{Cons as RefCycleCons, Nil as RefCycleNil},
@@ -103,6 +107,22 @@ fn main() {
     // Uncomment the next line to see that we have a cycle;
     // it will overflow the stack
     // println!("a next item = {:?}", a.tail());
+
+    // Preventing Reference Cycles
+    // https://doc.rust-lang.org/book/ch15-06-reference-cycles.html#preventing-reference-cycles-turning-an-rct-into-a-weakt
+    let leaf = Rc::new(Node {
+        value: 3,
+        parent: RefCell::new(Weak::new()),
+        children: RefCell::new(vec![]),
+    });
+
+    let branch = Rc::new(Node {
+        value: 5,
+        parent: RefCell::new(Weak::new()),
+        children: RefCell::new(vec![Rc::clone(&leaf)]),
+    });
+    *leaf.parent.borrow_mut() = Rc::downgrade(&branch);
+    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
 
     println!("Ending the app");
 }

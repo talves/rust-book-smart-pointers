@@ -1,4 +1,8 @@
-use std::{cell::RefCell, ops::Deref, rc::Rc};
+use std::{
+    cell::RefCell,
+    ops::Deref,
+    rc::{Rc, Weak},
+};
 
 pub enum List {
     //Boxes provide only the indirection and heap allocation
@@ -19,6 +23,7 @@ pub enum RcRefCellList {
     Nil,
 }
 
+// for demonstration of a reference cycle that could leak memory
 #[derive(Debug)]
 pub enum RefCycleList {
     Cons(i32, RefCell<Rc<RefCycleList>>),
@@ -32,6 +37,14 @@ impl RefCycleList {
             crate::RefCycleList::Nil => None,
         }
     }
+}
+
+// Using Weak<T> to avoid reference cycle
+#[derive(Debug)]
+pub struct Node {
+    pub value: i32,
+    pub parent: RefCell<Weak<Node>>,
+    pub children: RefCell<Vec<Rc<Node>>>,
 }
 
 pub struct Chest<T>(T);

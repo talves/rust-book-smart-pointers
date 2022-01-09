@@ -61,6 +61,7 @@ fn main() {
     println!("a = {:?}", a);
     println!("b = {:?}", b);
     println!("c = {:?}", c);
+    println!("count after creating b & c = {}", Rc::strong_count(&a));
 
     println!("Ending the app");
 }

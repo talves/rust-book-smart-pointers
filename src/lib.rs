@@ -8,7 +8,7 @@ pub enum List {
 
 #[derive(Debug)]
 pub enum RcList {
-    //Boxes provide only the indirection and heap allocation
+    //Rc provides for a reference count to keep track of multiple references to our List
     Cons(i32, Rc<RcList>),
     Nil,
 }

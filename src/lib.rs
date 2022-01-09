@@ -22,3 +22,14 @@ impl<T> Deref for Chest<T> {
         &self.0 // returns a reference to the value we want to access
     }
 }
+
+// implements Drop
+pub struct CustomSmartPointer {
+    pub data: String,
+}
+
+impl Drop for CustomSmartPointer {
+    fn drop(&mut self) {
+        println!("Dropping CustomSmartPointer with data `{}`!", self.data);
+    }
+}

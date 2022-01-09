@@ -1,7 +1,7 @@
 use std::ops::Deref;
 
 use rust_smart_pointers::{
-    Chest,
+    Chest, CustomSmartPointer,
     List::{Cons, Nil},
 };
 
@@ -37,4 +37,17 @@ fn main() {
     let m = Chest::new(String::from("World"));
     hello(&m); // Implicit deref coercion
     hello(&(*m)[..]); // what we would have had to write to do the above
+
+    // Drop
+    {
+        let _c = CustomSmartPointer {
+            data: String::from("my stuff"),
+        };
+        let _d = CustomSmartPointer {
+            data: String::from("other stuff"),
+        };
+        println!("CustomSmartPointers created.");
+    }
+
+    println!("Ending the app");
 }

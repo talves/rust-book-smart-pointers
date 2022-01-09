@@ -1,8 +1,8 @@
 use std::ops::Deref;
 
 use rust_smart_pointers::{
+    Chest,
     List::{Cons, Nil},
-    MyBox,
 };
 
 fn main() {
@@ -26,8 +26,14 @@ fn main() {
     assert_eq!(5, *z);
 
     let x = 5;
-    let y = MyBox::new(x);
+    let y = Chest::new(x);
 
     assert_eq!(5, x);
     assert_eq!(5, *y);
+
+    fn hello(name: &str) {
+        println!("Hello, {}!", name);
+    }
+    let m = Chest::new(String::from("World"));
+    hello(&m);
 }

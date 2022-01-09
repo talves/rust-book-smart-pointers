@@ -19,6 +19,21 @@ pub enum RcRefCellList {
     Nil,
 }
 
+#[derive(Debug)]
+pub enum RefCycleList {
+    Cons(i32, RefCell<Rc<RefCycleList>>),
+    Nil,
+}
+
+impl RefCycleList {
+    pub fn tail(&self) -> Option<&RefCell<Rc<RefCycleList>>> {
+        match self {
+            crate::RefCycleList::Cons(_, item) => Some(item),
+            crate::RefCycleList::Nil => None,
+        }
+    }
+}
+
 pub struct Chest<T>(T);
 
 impl<T> Chest<T> {

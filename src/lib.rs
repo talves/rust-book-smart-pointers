@@ -1,4 +1,4 @@
-use std::{ops::Deref, rc::Rc};
+use std::{cell::RefCell, ops::Deref, rc::Rc};
 
 pub enum List {
     //Boxes provide only the indirection and heap allocation
@@ -10,6 +10,12 @@ pub enum List {
 pub enum RcList {
     //Rc provides for a reference count to keep track of multiple references to our List
     Cons(i32, Rc<RcList>),
+    Nil,
+}
+
+#[derive(Debug)]
+pub enum RcRefCellList {
+    Cons(Rc<RefCell<i32>>, Rc<RcRefCellList>),
     Nil,
 }
 

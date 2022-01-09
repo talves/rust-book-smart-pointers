@@ -45,7 +45,7 @@ fn main() {
             data: String::from("other stuff"),
         };
         println!("CustomSmartPointers created.");
-    }
+    } // Rust automatically calls drop for us when _c, _d lose scope
 
     println!("Ending the app");
 }

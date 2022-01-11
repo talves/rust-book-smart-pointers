@@ -1,5 +1,6 @@
 use std::{
     cell::RefCell,
+    ops::Deref,
     rc::{Rc, Weak},
 };
 
@@ -150,6 +151,15 @@ fn main() {
         Rc::strong_count(&leaf),
         Rc::weak_count(&leaf),
     );
+
+    let x = 5;
+    let y = Box::new(&x);
+    let z: bool = *y == y.deref().deref();
+    println!("z: {}", z);
+    // z: true
+    let z: bool = &x == *y.deref();
+    println!("z: {}", z);
+    // z: true
 
     println!("Ending the app");
 }
